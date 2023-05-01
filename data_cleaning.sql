@@ -7,7 +7,9 @@ SELECT
 FROM
     hr;
     
--- change id column to emp_id
+-- Change the column name "id" to "emp_id" in the "hr" table
+-- Set the data type of the "emp_id" column to VARCHAR(20)
+-- Allow NULL values in the "emp_id" column
 ALTER TABLE hr
 CHANGE id emp_id VARCHAR(20) NULL;
 
@@ -15,6 +17,7 @@ CHANGE id emp_id VARCHAR(20) NULL;
 DESCRIBE hr;
 
 -- change birthdate data type since some date are 06-04-91 or 9/14/1982
+-- Change the data type of the "birthdate" column in the "hr" table to DATE
 ALTER TABLE hr
 MODIFY COLUMN birthdate DATE;
 
@@ -24,7 +27,10 @@ FROM
     hr;
 
 SET sql_safe_updates = 0;
-    
+
+-- Update the "birthdate" column in the "hr" table
+-- Use a CASE statement to handle two different date formats: MM/DD/YYYY and MM-DD-YYYY
+-- Convert the date values to the YYYY-MM-DD format using the DATE_FORMAT function
 UPDATE hr 
 SET 
     birthdate = CASE
@@ -71,7 +77,11 @@ SELECT
     termdate
 FROM
     hr;
-    
+
+-- Update the "termdate" column in the "hr" table
+-- Convert empty strings to NULL using the IF function
+-- Convert non-empty strings to dates using the STR_TO_DATE function
+-- Filter only non-NULL values using the WHERE clause
 UPDATE hr 
 SET
     termdate = IF(termdate = '',
@@ -80,6 +90,7 @@ SET
 WHERE
     termdate IS NOT NULL;
 
+-- Change the data type of the "termdate" column in the "hr" table to DATE
 ALTER TABLE hr
 MODIFY COLUMN termdate DATE;
 
@@ -105,6 +116,7 @@ SELECT
 FROM
     hr;
 
+-- We only want to count poeple over 18 years old so this WHERE statement will be included in most of our queires 
 SELECT 
     COUNT(*)
 FROM
